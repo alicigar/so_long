@@ -1,17 +1,18 @@
 NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = 
+INCLUDES = -Iinclude -Ilib/libft -Ilib/minilibx
+SRCS = src/init.c src/main.c src/map.c src/parsing.c src/parsing_2.c 
 OBJS = $(SRCS:.c=.o)
 LIBFT = lib/libft/libft.a
 MLX_DIR = lib/minilibx
-MLX = -L$(MLX_DIR) -lmlx -I$(MLX_DIR) -lXext -lX11 -lm
+MLX = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 RM = rm -f
 
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	make -C libft
+	make -C lib/libft
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) -o $(NAME)
@@ -21,11 +22,11 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C libft
+	make clean -C lib/libft
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C libft
+	make fclean -C lib/libft
 
 re: fclean all
 
