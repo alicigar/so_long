@@ -6,55 +6,11 @@
 /*   By: alicigar < alicigar@student.42malaga.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 19:49:03 by alicigar          #+#    #+#             */
-/*   Updated: 2025/03/10 04:50:11 by alicigar         ###   ########.fr       */
+/*   Updated: 2025/08/20 01:22:14 by alicigar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (NULL);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	size_t	len;
-
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s) + 1;
-	dup = malloc(len);
-	if (!dup)
-		return (NULL);
-	len = 0;
-	while (s[len])
-	{
-		dup[len] = s[len];
-		len++;
-	}
-	dup[len] = '\0';
-	return (dup);
-}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
