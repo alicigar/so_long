@@ -9,34 +9,33 @@
 /*   Updated: 2025/08/20 01:11:38 by alicigar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../include/so_long.h"
 
 int	main(int argc, char **argv)
 {
-	t_game	game;
-	int		i;
+	t_game	g;
 
-	i = 0;
 	if (argc != 2)
 	{
-		ft_printf("Error! Invalid number of arguments. \n.");
+		ft_printf("Error\nInvalid number of arguments\n");
 		return (1);
 	}
-	init_game(&game);
-	read_map(&game, argv[1]);
-	find_player(game.map);
-	if (!validate_map(&game, argv[1]))
+	init_game(&g);
+	read_map(&g, argv[1]);
+	if (!validate_map(&g, argv[1]))
 	{
-		free_map(game.map);
+		free_map(g.map);
 		return (1);
 	}
-	while (i < game.map_height)
-	{
-		ft_print_s(game.map[i]);
-		ft_print_s("\n");
-		i++;
-	}
-	free_map(game.map);
+	set_p_pos(&g);
+	count_collectibles(&g);
+	init_window(&g);
+	init_images(&g);
+	load_img(&g);
+	draw_base(&g);
+	draw_elements(&g);
+	mlx_key_hook(g.window, key_control, &g);
+	mlx_hook(g.window, 17, 0, close_window, &g);
+	mlx_loop(g.mlx);
 	return (0);
 }
