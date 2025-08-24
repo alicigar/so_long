@@ -16,7 +16,9 @@
 # include "../lib/libft/libft.h"
 # include "../lib/minilibx/mlx.h"
 
-typedef struct s_point
+# define TILE_SIZE 64
+
+typedef struct t_img
 {
 	void	*img;
 	int		x;
@@ -29,7 +31,7 @@ typedef struct s_game
 	void	*mlx;
 	void	*window;
 	t_img	*wall;
-	t_img	*ground;
+	t_img	*tile;
 	t_img	*p;
 	t_img	*e;
 	t_img	*c;
@@ -38,6 +40,10 @@ typedef struct s_game
 	int		p_count;
 	int		e_count;
 	int		c_count;
+	int		collectibles;
+	int		p_x;
+	int		p_y;
+	int		step_counter;
 }	t_game;
 
 typedef struct s_map
@@ -46,18 +52,26 @@ typedef struct s_map
 	int		y;
 }	t_coord;
 
-
-void	init_game(t_game *game);
-void	read_map(t_game *game, char *map_file);
+void	init_game(t_game *g);
+void	read_map(t_game *g, char *map_file);
 void	free_map(char **map);
 int		check_extension(char *map_file);
-int		check_valid_chars(t_game *game);
-int		check_elements(t_game *game);
-int		check_rectangular(t_game *game);
-int		checkwall(t_game *game);
-int		validate_map(t_game *game, char *filename);
-t_coord	*find_player(char **map);
-int		ff_preview(t_game *game);
-int		map_cmp(t_game *game, char **copy);
+int		check_valid_chars(t_game *g);
+int		check_elements(t_game *g);
+int		check_rectangular(t_game *g);
+int		check_walls(t_game *g);
+int		check_path(t_game *g);
+int		validate_map(t_game *g, char *filename);
+void	init_images(t_game *g);
+void	init_window(t_game *g);
+void	load_img(t_game *g);
+void	draw_base(t_game *g);
+void	draw_elements(t_game *g);
+int		key_control(int keycode, t_game *g);
+void	set_p_pos(t_game *g);
+void	count_collectibles(t_game *g);
+void	step_p(t_game *g, int step_x, int step_y);
+void	exit_game(t_game *g);
+int		close_window(t_game *g);
 
 #endif
