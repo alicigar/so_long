@@ -12,21 +12,21 @@
 
 #include "../include/so_long.h"
 
-static void	count_lines(t_game *game, int fd)
+static void	count_lines(t_game *g, int fd)
 {
 	char	*line;
 
-	game->map_height = 0;
+	g->map_height = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		game->map_height++;
+		g->map_height++;
 		free(line);
 		line = get_next_line(fd);
 	}
 }
 
-static void	fill_map(t_game *game, char *map_file)
+static void	fill_map(t_game *g, char *map_file)
 {
 	int		fd;
 	int		y;
@@ -34,47 +34,47 @@ static void	fill_map(t_game *game, char *map_file)
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("Error: map.ber not found\n");
+		ft_printf("Error\n map.ber not found\n");
 		exit(1);
 	}
 	y = 0;
-	while (y < game->map_height)
+	while (y < g->map_height)
 	{
-		game->map[y] = get_next_line(fd);
-		game->map[y] = ft_strtrim(game->map[y], "\n");
-		if (!game->map[y])
+		g->map[y] = get_next_line(fd);
+		g->map[y] = ft_strtrim(g->map[y], "\n");
+		if (!g->map[y])
 			break ;
 		y++;
 	}
-	game->map[y] = NULL;
+	g->map[y] = NULL;
 	close(fd);
 }
 
-void	read_map(t_game *game, char *map_file)
+void	read_map(t_game *g, char *map_file)
 {
 	int	fd;
 
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0 || !map_file)
 	{
-		ft_printf("Error: map.ber not found\n");
+		ft_printf("Error\n map.ber not found\n");
 		exit(1);
 	}
-	count_lines(game, fd);
+	count_lines(g, fd);
 	close(fd);
-	game->map = malloc(sizeof(char *) * (game->map_height + 1));
-	if (!game->map)
+	g->map = malloc(sizeof(char *) * (g->map_height + 1));
+	if (!g->map)
 	{
 		ft_printf("Error\n");
 		exit(1);
 	}
-	fill_map(game, map_file);
-	if (game->map_height == 0 || !game->map[0])
+	fill_map(g, map_file);
+	if (g->map_height == 0 || !g->map[0])
 	{
-		ft_printf("Error: empty map\n");
+		ft_printf("Error\n The map is empty. \n");
 		exit(1);
 	}
-	game->map_width = ft_strlen(game->map[0]);
+	g->map_width = ft_strlen(g->map[0]);
 }
 
 void	free_map(char **map)
@@ -87,5 +87,5 @@ void	free_map(char **map)
 		free(map[y]);
 		y++;
 	}
-	free(map[y]);
+	free(map);
 }
