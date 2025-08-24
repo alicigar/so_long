@@ -22,20 +22,20 @@ int	check_extension(char *map_file)
 	return (1);
 }
 
-int	check_valid_chars(t_game *game)
+int	check_valid_chars(t_game *g)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < game->map_height)
+	while (i < g->map_height)
 	{
 		j = 0;
-		while (game->map[i][j])
+		while (g->map[i][j])
 		{
-			if (game->map[i][j] != '0' && game->map[i][j] != '1' &&
-				game->map[i][j] != 'P' && game->map[i][j] != 'E' &&
-				game->map[i][j] != 'C')
+			if (g->map[i][j] != '0' && g->map[i][j] != '1' &&
+				g->map[i][j] != 'P' && g->map[i][j] != 'E' &&
+				g->map[i][j] != 'C')
 				return (0);
 			j++;
 		}
@@ -44,49 +44,77 @@ int	check_valid_chars(t_game *game)
 	return (1);
 }
 
-int	check_elements(t_game *game)
+int	check_elements(t_game *g)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	game->p_count = 0;
-	game->e_count = 0;
-	game->c_count = 0;
-	while (i < game->map_height)
+	g->p_count = 0;
+	g->e_count = 0;
+	g->c_count = 0;
+	while (i < g->map_height)
 	{
 		j = 0;
-		while (game->map[i][j])
+		while (g->map[i][j])
 		{
-			if (game->map[i][j] == 'P')
-				game->p_count++;
-			else if (game->map[i][j] == 'E')
-				game->e_count++;
-			else if (game->map[i][j] == 'C')
-				game->c_count++;
+			if (g->map[i][j] == 'P')
+				g->p_count++;
+			else if (g->map[i][j] == 'E')
+				g->e_count++;
+			else if (g->map[i][j] == 'C')
+				g->c_count++;
 			j++;
 		}
 		i++;
 	}
-	if (game->p_count != 1 || game->e_count < 1 || game->c_count < 1)
+	if (g->p_count != 1 || g->e_count != 1 || g->c_count < 1)
 		return (0);
 	return (1);
 }
 
-int	check_rectangular(t_game *game)
+int	check_rectangular(t_game *g)
 {
 	int		i;
 	size_t	width;
 
-	if (game->map_height == 0 || !game->map[0])
-		return (ft_printf("Error: Map is empty\n"), 0);
-	width = ft_strlen(game->map[0]);
+	if (g->map_height == 0 || !g->map[0])
+		return (ft_printf("Error\nThe map is empty\n"), 0);
+	width = ft_strlen(g->map[0]);
 	i = 1;
-	while (i < game->map_height)
+	while (i < g->map_height)
 	{
-		if (ft_strlen(game->map[i]) != width)
+		if (ft_strlen(g->map[i]) != width)
 			return (0);
 		i++;
+	}
+	return (1);
+}
+
+int	check_walls(t_game *g)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	while (x < g->map_height)
+	{
+		if (g->map[x][0] != '1' || g->map[x][g->map_width - 1] != '1')
+		{
+			ft_printf("Error\nWall is missing in row\n", x);
+			return (0);
+		}
+		x++;
+	}
+	y = 0;
+	while (y < g->map_width)
+	{
+		if (g->map[0][y] != '1' || g->map[g->map_height - 1][y] != '1')
+		{
+			ft_printf("Error\nWall is missing in column\n", y);
+			return (0);
+		}
+		y++;
 	}
 	return (1);
 }
